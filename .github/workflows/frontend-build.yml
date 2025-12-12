@@ -52,7 +52,7 @@ jobs:
 
                       **Version:** ${{ steps.version.outputs.version }}
                       **Commit:** ${{ github.sha }}
-                      **Build Date:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+                      **Build Date:** ${{ steps.version.outputs.version && format('{0}', env.BUILD_DATE) || 'N/A' }}
 
                       Download `frontend-dist.zip` and extract to your server's `public/` directory.
                   files: |
