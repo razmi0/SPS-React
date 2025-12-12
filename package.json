@@ -1,7 +1,7 @@
 {
     "name": "sps-front",
     "private": true,
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Swiss Padel Stars - Frontend Application",
     "type": "module",
     "author": "razmi0",
