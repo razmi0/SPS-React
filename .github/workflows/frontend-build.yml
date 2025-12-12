@@ -39,7 +39,7 @@ jobs:
             - name: Create dist archive
               run: |
                   cd dist
-                  zip -r ../frontend-dist.zip .
+                  zip -r ../sps-dist.zip .
                   cd ..
 
             - name: Create Release
@@ -52,11 +52,10 @@ jobs:
 
                       **Version:** ${{ steps.version.outputs.version }}
                       **Commit:** ${{ github.sha }}
-                      **Build Date:** ${{ steps.version.outputs.version && format('{0}', env.BUILD_DATE) || 'N/A' }}
 
-                      Download `frontend-dist.zip` and extract to your server's `public/` directory.
+                      Download `sps-dist.zip` and extract to your server's `public/` directory.
                   files: |
-                      frontend-dist.zip
+                      sps-dist.zip
                   draft: false
                   prerelease: false
               env:
