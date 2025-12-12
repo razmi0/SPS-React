@@ -1,0 +1,55 @@
+name: Frontend Build
+
+on:
+    push:
+        branches:
+            - main
+    workflow_dispatch:
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "20"
+                  cache: "npm"
+                  cache-dependency-path: package-lock.json
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Run build
+              run: npm run build
+
+            - name: Create dist archive
+              run: |
+                  cd dist
+                  zip -r ../frontend-dist.zip .
+                  cd ..
+
+            - name: Create Release
+              uses: softprops/action-gh-release@v1
+              with:
+                  tag_name: v${{ github.run_number }}-${{ github.sha }}
+                  name: Frontend Build $(date +%Y-%m-%d)
+                  body: |
+                      ## Frontend Build
+
+                      **Commit:** ${{ github.sha }}
+                      **Build Date:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+
+                      Download `frontend-dist.zip` and extract to your server's `public/` directory.
+                  files: |
+                      frontend-dist.zip
+                  draft: false
+                  prerelease: false
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
