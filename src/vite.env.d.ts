@@ -1,3 +1,5 @@
+/// <reference types="vitest" />
+
 interface ViteTypeOptions {
     strictImportMetaEnv: unknown;
 }
