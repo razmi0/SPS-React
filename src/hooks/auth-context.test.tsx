@@ -1,5 +1,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, type Mock, vi } from "vitest";
+import type { APIResponse } from "../types";
+import type { AuthResponse } from "./auth-context";
 import { AuthProvider, useAuth } from "./auth-context";
 import clientFetch from "./client-fetch";
 
@@ -28,12 +30,13 @@ describe("AuthContext", () => {
     beforeEach(() => {
         vi.clearAllMocks();
         // Ensure clientFetch always returns a valid response by default
-        (clientFetch as any).mockResolvedValue({
+        (clientFetch as unknown as Mock).mockResolvedValue({
             ok: false,
             json: async () => ({ message: "Not authenticated" }),
         });
     });
 
+    //@ts-expect-error - Mock is not typed
     afterEach(() => {
         // Clean up any pending async operations
         vi.clearAllTimers();
@@ -74,7 +77,7 @@ describe("AuthContext", () => {
             updatedAt: null,
         };
 
-        (clientFetch as any).mockResolvedValue({
+        (clientFetch as unknown as Mock).mockResolvedValue({
             ok: true,
             json: async () => ({ data: mockUser }),
         });
@@ -110,7 +113,7 @@ describe("AuthContext", () => {
             updatedAt: null,
         };
 
-        (clientFetch as any)
+        (clientFetch as unknown as Mock)
             .mockResolvedValueOnce({
                 ok: true,
                 json: async () => ({ message: "Login successful" }),
@@ -121,7 +124,7 @@ describe("AuthContext", () => {
             });
 
         const { useAuth } = await import("./auth-context");
-        let authResult: any;
+        let authResult: AuthResponse | null = null;
 
         const LoginTest = () => {
             const auth = useAuth();
@@ -148,7 +151,7 @@ describe("AuthContext", () => {
 
         // Clear mocks to test login
         vi.clearAllMocks();
-        (clientFetch as any)
+        (clientFetch as unknown as Mock)
             .mockResolvedValueOnce({
                 ok: true,
                 json: async () => ({ message: "Login successful" }),
@@ -169,13 +172,13 @@ describe("AuthContext", () => {
 
     it("should handle login failure", async () => {
         // Mock initial profile fetch
-        (clientFetch as any).mockResolvedValueOnce({
+        (clientFetch as unknown as Mock).mockResolvedValueOnce({
             ok: false,
             json: async () => ({ message: "Not authenticated" }),
         });
 
         const { useAuth } = await import("./auth-context");
-        let authResult: any;
+        let authResult: unknown;
 
         const LoginTest = () => {
             const auth = useAuth();
@@ -201,7 +204,7 @@ describe("AuthContext", () => {
         });
 
         // Set up login failure - this will be the next call
-        (clientFetch as any).mockResolvedValueOnce({
+        (clientFetch as unknown as Mock).mockResolvedValueOnce({
             ok: false,
             json: async () => ({ message: "Invalid credentials" }),
         });
@@ -212,20 +215,20 @@ describe("AuthContext", () => {
         await waitFor(
             () => {
                 expect(authResult).toBeDefined();
-                expect(authResult?.success).toBe(false);
+                expect((authResult as AuthResponse)?.success).toBe(false);
             },
             { timeout: 3000 }
         );
     });
 
     it("should handle logout", async () => {
-        (clientFetch as any).mockResolvedValue({
+        (clientFetch as unknown as Mock).mockResolvedValue({
             ok: true,
             json: async () => ({ data: null }),
         });
 
         const { useAuth } = await import("./auth-context");
-        let userAfterLogout: any;
+        let userAfterLogout: APIResponse["USER_PROFILE"] | null = null;
 
         const LogoutTest = () => {
             const auth = useAuth();
@@ -251,7 +254,7 @@ describe("AuthContext", () => {
         });
 
         vi.clearAllMocks();
-        (clientFetch as any).mockResolvedValueOnce({
+        (clientFetch as unknown as Mock).mockResolvedValueOnce({
             ok: true,
         });
 
@@ -280,7 +283,7 @@ describe("AuthContext", () => {
             updatedAt: null,
         };
 
-        (clientFetch as any).mockResolvedValue({
+        (clientFetch as unknown as Mock).mockResolvedValue({
             ok: true,
             json: async () => ({ data: mockUser }),
         });

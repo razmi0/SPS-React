@@ -4,7 +4,7 @@ import clientFetch from "./client-fetch";
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
-interface AuthContextType {
+export interface AuthContextType {
     user: APIResponse["USER_PROFILE"] | null;
     login: (email: string, password: string) => Promise<AuthResponse>;
     register: (form: RegisterForm) => Promise<AuthResponse>;
@@ -12,7 +12,7 @@ interface AuthContextType {
     logout: () => Promise<void>;
 }
 
-interface RegisterForm {
+export interface RegisterForm {
     company: string;
     lastName: string;
     firstName: string;
@@ -21,7 +21,7 @@ interface RegisterForm {
     confirmPassword: string;
 }
 
-type AuthResponse = {
+export type AuthResponse = {
     success: boolean;
     message: string;
     errors?: { [key: string]: string };
