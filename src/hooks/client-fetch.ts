@@ -1,5 +1,6 @@
 /**
- * Client-side fetch utility that uses VITE_API_URL from environment variables
+ * Client-side fetch utility
+ * Uses relative paths (proxied in dev via Vite proxy, direct and relative in production)
  * Automatically includes credentials for cookie-based authentication
  * Handles token refresh on 401 errors
  */
@@ -15,8 +16,7 @@ async function attemptRefresh(): Promise<boolean> {
     // Start a new refresh
     refreshPromise = (async () => {
         try {
-            const apiUrl = import.meta.env.VITE_API_URL || "";
-            const response = await fetch(`${apiUrl}/api/auth/refresh`, {
+            const response = await fetch("/api/auth/refresh", {
                 method: "POST",
                 credentials: "include",
                 headers: {
@@ -58,27 +58,22 @@ export default async function clientFetch(input: RequestInfo | URL, init?: Reque
     // Skip refresh for the refresh endpoint itself to avoid infinite loops
     const isRefreshEndpoint = path === "/api/auth/refresh" || path.includes("/api/auth/refresh");
 
-    // Get API URL from environment, fallback to empty string for proxy in dev
-    const apiUrl = import.meta.env.DEV ? import.meta.env.VITE_API_URL || "" : ""; // Production: relative paths (same domain)
-
-    // Merge options with defaults
     const options: RequestInit = {
-        credentials: "include", // Always include cookies for authentication
+        credentials: "include",
         ...init,
         headers: {
             ...init?.headers,
         },
     };
 
-    let response = await fetch(`${apiUrl}${path}`, options);
+    let response = await fetch(path, options);
 
     // If we get a 401 and it's not the refresh endpoint, try to refresh the token
     if (response.status === 401 && !isRefreshEndpoint) {
         const refreshSuccess = await attemptRefresh();
-
         if (refreshSuccess) {
             // Retry the original request with the new token
-            response = await fetch(`${apiUrl}${path}`, options);
+            response = await fetch(path, options);
         }
     }
 
