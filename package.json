@@ -1,7 +1,7 @@
 {
     "name": "sps-front",
     "private": true,
-    "version": "1.1.0",
+    "version": "1.1.1",
     "description": "Swiss Padel Stars - Frontend App",
     "type": "module",
     "author": "razmi0",
@@ -14,7 +14,10 @@
         "dev": "vite",
         "build": "tsc -b && vite build",
         "lint": "eslint .",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "test": "vitest run",
+        "test:watch": "vitest",
+        "test:coverage": "vitest run --coverage"
     },
     "dependencies": {
         "@tailwindcss/vite": "^4.1.16",
@@ -50,6 +53,12 @@
         "tailwindcss-animate": "^1.0.7",
         "typescript": "^5.9.3",
         "typescript-eslint": "^8.45.0",
-        "vite": "^7.1.7"
+        "vite": "^7.1.7",
+        "vitest": "^2.1.8",
+        "@testing-library/react": "^16.1.0",
+        "@testing-library/jest-dom": "^6.6.3",
+        "@testing-library/user-event": "^14.5.2",
+        "@vitest/coverage-v8": "^2.1.8",
+        "jsdom": "^25.0.1"
     }
 }

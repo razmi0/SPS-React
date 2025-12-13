@@ -1,5 +1,13 @@
 # Changelog
 
+## sps-front-1.1.1
+
+- **feat**: Add throttle/debounce utilities, integrate throttling in client-fetch (1s per endpoint)
+- **feat**: Setup Vitest testing environment
+- **feat**: Add GitHub Actions test workflow, chain build to run after tests
+- **test**: Add unit tests for utils, Input, auth context, client-fetch
+- **chore**: Add coverage to .gitignore, bump version
+
 ## sps-front-1.1.0
 
 - **feat**: Enhance Vite configuration with dynamic versioning and API proxy setup
