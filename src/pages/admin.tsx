@@ -47,10 +47,20 @@ export default function AdminPage() {
     const [articles, setArticles] = useState<ArticleType[]>([]);
     const [showSection, setShowSection] = useState<"users" | "contacts" | "products" | "articles" | null>(null);
     const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState<{
+        users: boolean;
+        contacts: boolean;
+        products: boolean;
+        articles: boolean;
+    }>({
+        users: false,
+        contacts: false,
+        products: false,
+        articles: false,
+    });
 
     const fetchUsers = async () => {
-        setLoading(true);
+        setLoading((prev) => ({ ...prev, users: true }));
         setError(null);
         try {
             const response = await clientFetch("/api/user/get-all");
@@ -66,12 +76,12 @@ export default function AdminPage() {
             setError("Erreur réseau utilisateurs. Vérifiez que le serveur backend est démarré.");
             console.error("Erreur réseau utilisateurs :", err);
         } finally {
-            setLoading(false);
+            setLoading((prev) => ({ ...prev, users: false }));
         }
     };
 
     const fetchContacts = async () => {
-        setLoading(true);
+        setLoading((prev) => ({ ...prev, contacts: true }));
         setError(null);
         try {
             const response = await clientFetch("/api/contact/get-all");
@@ -87,12 +97,12 @@ export default function AdminPage() {
             setError("Erreur réseau contacts. Vérifiez que le serveur backend est démarré.");
             console.error("Erreur réseau contacts :", err);
         } finally {
-            setLoading(false);
+            setLoading((prev) => ({ ...prev, contacts: false }));
         }
     };
 
     const fetchProducts = async () => {
-        setLoading(true);
+        setLoading((prev) => ({ ...prev, products: true }));
         setError(null);
         try {
             const response = await clientFetch("/api/product/get-all");
@@ -108,12 +118,12 @@ export default function AdminPage() {
             setError("Erreur réseau produits. Vérifiez que le serveur backend est démarré.");
             console.error("Erreur réseau produits :", err);
         } finally {
-            setLoading(false);
+            setLoading((prev) => ({ ...prev, products: false }));
         }
     };
 
     const fetchArticles = async () => {
-        setLoading(true);
+        setLoading((prev) => ({ ...prev, articles: true }));
         setError(null);
         try {
             const response = await clientFetch("/api/article/get-all");
@@ -129,7 +139,7 @@ export default function AdminPage() {
             setError("Erreur réseau articles. Vérifiez que le serveur backend est démarré.");
             console.error("Erreur réseau articles :", err);
         } finally {
-            setLoading(false);
+            setLoading((prev) => ({ ...prev, articles: false }));
         }
     };
 
@@ -157,27 +167,27 @@ export default function AdminPage() {
             <div className="flex gap-6 mb-10 flex-wrap">
                 <button
                     onClick={fetchUsers}
-                    disabled={loading}
-                    className="bg-dark-secondary text-white py-2 px-6 rounded-3xl border disabled:opacity-50">
-                    {loading && showSection === "users" ? "Chargement..." : "Voir les utilisateurs"}
+                    disabled={loading.users}
+                    className="bg-dark-secondary text-white py-2 px-6 rounded-3xl border disabled:opacity-50 disabled:cursor-not-allowed">
+                    {loading.users ? "Chargement..." : "Voir les utilisateurs"}
                 </button>
                 <button
                     onClick={fetchContacts}
-                    disabled={loading}
-                    className="bg-dark-secondary text-white py-2 px-6 rounded-3xl border disabled:opacity-50">
-                    {loading && showSection === "contacts" ? "Chargement..." : "Voir les contacts"}
+                    disabled={loading.contacts}
+                    className="bg-dark-secondary text-white py-2 px-6 rounded-3xl border disabled:opacity-50 disabled:cursor-not-allowed">
+                    {loading.contacts ? "Chargement..." : "Voir les contacts"}
                 </button>
                 <button
                     onClick={fetchProducts}
-                    disabled={loading}
-                    className="bg-dark-secondary text-white py-2 px-6 rounded-3xl border disabled:opacity-50">
-                    {loading && showSection === "products" ? "Chargement..." : "Voir les produits"}
+                    disabled={loading.products}
+                    className="bg-dark-secondary text-white py-2 px-6 rounded-3xl border disabled:opacity-50 disabled:cursor-not-allowed">
+                    {loading.products ? "Chargement..." : "Voir les produits"}
                 </button>
                 <button
                     onClick={fetchArticles}
-                    disabled={loading}
-                    className="bg-dark-secondary text-white py-2 px-6 rounded-3xl border disabled:opacity-50">
-                    {loading && showSection === "articles" ? "Chargement..." : "Voir les articles"}
+                    disabled={loading.articles}
+                    className="bg-dark-secondary text-white py-2 px-6 rounded-3xl border disabled:opacity-50 disabled:cursor-not-allowed">
+                    {loading.articles ? "Chargement..." : "Voir les articles"}
                 </button>
             </div>
 
