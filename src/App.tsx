@@ -97,7 +97,6 @@ const links: AppLink[] = [
 ];
 
 export default function App() {
-    console.log(import.meta.env);
     return (
         <BrowserRouter>
             <ScrollToTop />
