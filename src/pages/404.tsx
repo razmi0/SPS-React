@@ -8,9 +8,7 @@ export default function NotFoundPage() {
             <p className="text-grey text-center mb-8 max-w-md">
                 La page que vous recherchez n'existe pas ou a été déplacée.
             </p>
-            <Link
-                to="/"
-                className="bg-secondary text-white py-3 px-8 rounded-3xl border hover:bg-opacity-90 transition">
+            <Link to="/" className="btn-pill-secondary py-3 px-8">
                 Retour à l'accueil
             </Link>
         </div>

@@ -264,104 +264,109 @@ export default function Page() {
 
                 {/* Profile Tab */}
                 {activeTab === "profile" && (
-                    <div className="bg-primary rounded-lg shadow-lg p-8">
-                        <form onSubmit={handleSubmit} className="flex flex-col items-center gap-6">
-                            <div className="bg-white text-primary rounded-full w-20 h-20 flex items-center justify-center text-2xl font-bold">
-                                {(user.firstName?.[0] || "?") + (user.lastName?.[0] || "")}
-                            </div>
+                    <div className="w-full flex justify-center">
+                        <div className="card-primary max-w-md">
+                            <form onSubmit={handleSubmit} className="flex flex-col items-center gap-6">
+                                <div className="bg-white text-primary rounded-full w-20 h-20 flex items-center justify-center text-2xl font-bold">
+                                    {(user.firstName?.[0] || "?") + (user.lastName?.[0] || "")}
+                                </div>
 
-                            <div className="flex flex-col gap-4 w-full max-w-md">
-                                <FormField
-                                    label="Nom"
-                                    value={formData.lastName}
-                                    onChange={(e) => setFormData((prev) => ({ ...prev, lastName: e.target.value }))}
-                                    error={errors.lastName}
-                                />
-                                <FormField
-                                    label="Prénom"
-                                    value={formData.firstName}
-                                    onChange={(e) => setFormData((prev) => ({ ...prev, firstName: e.target.value }))}
-                                    error={errors.firstName}
-                                />
-                                <FormField
-                                    label="Email"
-                                    value={formData.email}
-                                    onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
-                                    error={errors.email}
-                                />
-                                {user.isVerified && (
-                                    <p className="text-xs text-gray-500">
-                                        Modifier votre email annulera la vérification de votre compte.
-                                    </p>
-                                )}
-                                <FormField
-                                    label="Entreprise"
-                                    value={formData.company || ""}
-                                    onChange={(e) => setFormData((prev) => ({ ...prev, company: e.target.value }))}
-                                    error={errors.company}
-                                />
-                                <div className="flex flex-col gap-1">
-                                    <label className="text-sm font-semibold text-gray-500">
-                                        S'abonner à la newsletter :
-                                    </label>
-                                    <div className="flex items-center gap-4">
-                                        <label className="flex items-center gap-2 cursor-pointer">
-                                            <input
-                                                type="radio"
-                                                name="newsletterOptin"
-                                                value="true"
-                                                className="cursor-pointer"
-                                                checked={formData.newsletterOptin === true}
-                                                onChange={() =>
-                                                    setFormData((prev) => ({ ...prev, newsletterOptin: true }))
-                                                }
-                                            />
-                                            Oui
+                                <div className="flex flex-col gap-4 w-full max-w-md">
+                                    <FormField
+                                        label="Nom"
+                                        value={formData.lastName}
+                                        onChange={(e) => setFormData((prev) => ({ ...prev, lastName: e.target.value }))}
+                                        error={errors.lastName}
+                                    />
+                                    <FormField
+                                        label="Prénom"
+                                        value={formData.firstName}
+                                        onChange={(e) =>
+                                            setFormData((prev) => ({ ...prev, firstName: e.target.value }))
+                                        }
+                                        error={errors.firstName}
+                                    />
+                                    <FormField
+                                        label="Email"
+                                        value={formData.email}
+                                        onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
+                                        error={errors.email}
+                                    />
+                                    {user.isVerified && (
+                                        <p className="text-xs text-gray-200">
+                                            Modifier votre email annulera la vérification de votre compte.
+                                        </p>
+                                    )}
+                                    <FormField
+                                        label="Entreprise"
+                                        value={formData.company || ""}
+                                        onChange={(e) => setFormData((prev) => ({ ...prev, company: e.target.value }))}
+                                        error={errors.company}
+                                    />
+                                    <div className="flex flex-col gap-1">
+                                        <label className="text-sm font-semibold text-gray-200">
+                                            S'abonner à la newsletter :
                                         </label>
-                                        <label className="flex items-center gap-2 cursor-pointer">
-                                            <input
-                                                type="radio"
-                                                name="newsletterOptin"
-                                                value="false"
-                                                className="cursor-pointer"
-                                                checked={formData.newsletterOptin === false}
-                                                onChange={() =>
-                                                    setFormData((prev) => ({ ...prev, newsletterOptin: false }))
-                                                }
-                                            />
-                                            Non
-                                        </label>
+                                        <div className="flex items-center gap-4">
+                                            <label className="flex items-center gap-2 cursor-pointer text-white">
+                                                <input
+                                                    type="radio"
+                                                    name="newsletterOptin"
+                                                    value="true"
+                                                    className="cursor-pointer"
+                                                    checked={formData.newsletterOptin === true}
+                                                    onChange={() =>
+                                                        setFormData((prev) => ({ ...prev, newsletterOptin: true }))
+                                                    }
+                                                />
+                                                Oui
+                                            </label>
+                                            <label className="flex items-center gap-2 cursor-pointer text-white">
+                                                <input
+                                                    type="radio"
+                                                    name="newsletterOptin"
+                                                    value="false"
+                                                    className="cursor-pointer"
+                                                    checked={formData.newsletterOptin === false}
+                                                    onChange={() =>
+                                                        setFormData((prev) => ({ ...prev, newsletterOptin: false }))
+                                                    }
+                                                />
+                                                Non
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <Button type="submit" className="bg-dark-secondary text-white" disabled={loading}>
-                                {loading ? "Mise à jour..." : "Mettre à jour"}
-                            </Button>
-
-                            {successMessage && <p className="text-green-500 text-center">{successMessage}</p>}
-
-                            {/* Danger Zone */}
-                            <div className="w-full max-w-md mt-8 pt-8 border-t border-gray-300">
-                                <h3 className="text-lg font-semibold text-red-600 mb-4">Zone de danger</h3>
-                                <p className="text-sm text-gray-600 mb-4">
-                                    La suppression de votre compte est définitive. Toutes vos données seront supprimées.
-                                </p>
-                                <Button
-                                    type="button"
-                                    className="bg-red-600 text-white hover:bg-red-700"
-                                    onClick={() =>
-                                        setDeleteDialog({
-                                            open: true,
-                                            type: "account",
-                                            id: null,
-                                            name: "votre compte",
-                                        })
-                                    }>
-                                    Supprimer mon compte
+                                <Button type="submit" className="btn-pill" disabled={loading}>
+                                    {loading ? "Mise à jour..." : "Mettre à jour"}
                                 </Button>
-                            </div>
-                        </form>
+
+                                {successMessage && <p className="text-green-500 text-center">{successMessage}</p>}
+
+                                {/* Danger Zone */}
+                                <div className="w-full max-w-md mt-8 pt-8 border-t border-white/20">
+                                    <h3 className="text-lg font-semibold text-red-300 mb-4">Zone de danger</h3>
+                                    <p className="text-sm text-gray-200 mb-4">
+                                        La suppression de votre compte est définitive. Toutes vos données seront
+                                        supprimées.
+                                    </p>
+                                    <Button
+                                        type="button"
+                                        className="bg-red-600 text-white hover:bg-red-700"
+                                        onClick={() =>
+                                            setDeleteDialog({
+                                                open: true,
+                                                type: "account",
+                                                id: null,
+                                                name: "votre compte",
+                                            })
+                                        }>
+                                        Supprimer mon compte
+                                    </Button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 )}
 
@@ -378,17 +383,15 @@ export default function Page() {
                         ) : (
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                 {profileData?.products.map((product) => (
-                                    <div
-                                        key={product.id}
-                                        className="p-4 rounded-lg bg-grey text-white border border-gray-600">
+                                    <div key={product.id} className="card-sm">
                                         <div className="mb-3 pb-3 border-b border-gray-600">
                                             <h3 className="font-semibold text-lg mb-1">{product.name}</h3>
                                             <p className="text-xl font-bold text-secondary">
                                                 {(product.price / 100).toFixed(2)} CHF
                                             </p>
                                         </div>
-                                        <p className="text-sm text-gray-300 line-clamp-3 mb-3">{product.description}</p>
-                                        <div className="flex items-center justify-between text-xs text-gray-400 mb-3">
+                                        <p className="text-sm text-gray-100 line-clamp-3 mb-3">{product.description}</p>
+                                        <div className="flex items-center justify-between text-xs text-gray-200 mb-3">
                                             <span>{product.images.length} image(s)</span>
                                             <span>{formatDate(product.createdAt)}</span>
                                         </div>
@@ -425,14 +428,12 @@ export default function Page() {
                         ) : (
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                 {profileData?.articles.map((article) => (
-                                    <div
-                                        key={article.id}
-                                        className="p-4 rounded-lg bg-grey text-white border border-gray-600">
+                                    <div key={article.id} className="card-sm">
                                         <div className="mb-3 pb-3 border-b border-gray-600">
                                             <h3 className="font-semibold text-lg">{article.title}</h3>
                                         </div>
-                                        <p className="text-sm text-gray-300 line-clamp-3 mb-3">{article.description}</p>
-                                        <div className="flex items-center justify-between text-xs text-gray-400 mb-3">
+                                        <p className="text-sm text-gray-100 line-clamp-3 mb-3">{article.description}</p>
+                                        <div className="flex items-center justify-between text-xs text-gray-200 mb-3">
                                             <span>{article.images.length} image(s)</span>
                                             <span>{formatDate(article.createdAt)}</span>
                                         </div>
@@ -469,18 +470,16 @@ export default function Page() {
                         ) : (
                             <div className="space-y-4">
                                 {profileData?.contacts.map((contact) => (
-                                    <div
-                                        key={contact.id}
-                                        className="p-4 rounded-lg bg-grey text-white border border-gray-600">
+                                    <div key={contact.id} className="card-sm">
                                         <div className="flex items-center justify-between mb-2">
                                             <span className="bg-dark-secondary px-3 py-1 rounded text-sm">
                                                 {contact.contactType}
                                             </span>
-                                            <span className="text-xs text-gray-400">
+                                            <span className="text-xs text-gray-200">
                                                 {formatDate(contact.createdAt)}
                                             </span>
                                         </div>
-                                        <p className="text-sm mb-3">{contact.message}</p>
+                                        <p className="text-sm text-white mb-3">{contact.message}</p>
                                         <Button
                                             variant="destructive"
                                             size="sm"
@@ -514,19 +513,17 @@ export default function Page() {
                         ) : (
                             <div className="space-y-4">
                                 {profileData?.events.map((event) => (
-                                    <div
-                                        key={event.id}
-                                        className="p-4 rounded-lg bg-grey text-white border border-gray-600 flex items-start gap-4">
+                                    <div key={event.id} className="card-sm flex items-start gap-4">
                                         <div className="shrink-0 w-2 h-2 rounded-full bg-secondary mt-2"></div>
                                         <div className="flex-1">
                                             <div className="flex items-center justify-between mb-2">
                                                 <h3 className="font-semibold">{getEventLabel(event)}</h3>
-                                                <span className="text-xs text-gray-400">
+                                                <span className="text-xs text-gray-200">
                                                     {formatDate(event.createdAt)}
                                                 </span>
                                             </div>
                                             {event.metadata && Object.keys(event.metadata).length > 0 && (
-                                                <div className="text-sm text-gray-300">
+                                                <div className="text-sm text-gray-100">
                                                     {Object.entries(event.metadata).map(([key, value]) => (
                                                         <div key={key}>
                                                             <strong>{key}:</strong> {String(value)}
@@ -669,7 +666,7 @@ const FormField = ({
     error?: string;
 }) => (
     <div className="flex flex-col gap-1">
-        <label className="text-sm font-semibold text-gray-500">{label} :</label>
+        <label className="text-sm font-semibold text-gray-200">{label} :</label>
         <Input
             type="text"
             value={value}
@@ -678,6 +675,6 @@ const FormField = ({
             htmlFor={label.toLowerCase()}
             placeholder={label}
         />
-        {error && <p className="text-red-500 text-xs">{error}</p>}
+        {error && <p className="text-red-300 text-xs">{error}</p>}
     </div>
 );

@@ -1,4 +1,4 @@
-import { MenuIcon, ShieldCheckIcon, UserIcon } from "lucide-react";
+import { CircleUser, MenuIcon, ShieldCheckIcon } from "lucide-react";
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router";
 import { useAuth } from "../hooks/auth-context";
@@ -104,7 +104,7 @@ const AuthSection = ({ Icon }: { Icon: React.ReactNode }) => {
                 <div className="relative">
                     {Icon}
                     <svg width="25" height="25" viewBox="0 0 20 20" className="absolute bottom-0 right-0 opacity-90">
-                        <circle cx="15" cy="15" r="5" fill={user ? "green" : "red"} />
+                        <circle cx="15" cy="15" r="5" className={user ? "fill-teal-500" : "fill-amber-500"} />
                     </svg>
                 </div>
             </DropdownMenuTrigger>
@@ -134,7 +134,9 @@ const AuthSection = ({ Icon }: { Icon: React.ReactNode }) => {
                                 value={loginData.password}
                                 onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
                             />
-                            <Button type="submit">Se connecter</Button>
+                            <Button type="submit" className="btn-pill">
+                                Se connecter
+                            </Button>
                         </form>
                         <DropdownMenuSeparator />
                         <SubTitle>
@@ -227,14 +229,20 @@ const AuthSection = ({ Icon }: { Icon: React.ReactNode }) => {
                                     <p className="text-red-500 text-sm mt-1">{registerErrors.confirmPassword}</p>
                                 )}
                             </div> */}
-                            <Button type="submit">S'inscrire</Button>
+                            <Button type="submit" className="btn-pill">
+                                S'inscrire
+                            </Button>
                         </form>
                     </>
                 ) : (
                     <>
                         <div className="flex flex-col gap-3 mt-2">
-                            <Button onClick={() => navigate("/profil")}>Voir mon profil</Button>
-                            <Button onClick={handleLogout}>Se déconnecter</Button>
+                            <Button onClick={() => navigate("/profil")} className="btn-pill">
+                                Voir mon profil
+                            </Button>
+                            <Button onClick={handleLogout} className="btn-pill">
+                                Se déconnecter
+                            </Button>
                         </div>
                     </>
                 )}
@@ -258,16 +266,16 @@ export default function Header({ links }: { links: NavLinkType[] }) {
                     {/* Si l'utilisateur est admin, on affiche l'icône */}
                     {user?.roles.includes("ROLE_ADMIN") && (
                         <NavLink to="/admin" title="Accéder à l'administration">
-                            <Button variant="ghost" size="icon">
-                                <ShieldCheckIcon size={50} className="text-secondary h-full w-full" />
-                            </Button>
+                            {/* <Button variant="ghost" size="icon" className="p-0 flex items-center justify-center"> */}
+                            <ShieldCheckIcon className="text-secondary" size={ICON_SIZE} strokeWidth={1.7} />
+                            {/* </Button> */}
                         </NavLink>
                     )}
 
-                    <AuthSection Icon={<UserIcon size={ICON_SIZE} />} />
+                    <AuthSection Icon={<CircleUser size={ICON_SIZE} strokeWidth={1.5} />} />
                     {/* <CartSection title="Votre panier" Icon={<ShoppingCartIcon size={ICON_SIZE} />} /> */}
                     <NavLink to="/contact">
-                        <Button>Contact</Button>
+                        <Button className="btn-pill">Contact</Button>
                     </NavLink>
                 </section>
             </div>

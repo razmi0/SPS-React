@@ -8,9 +8,9 @@ type AutomationRule = {
     description: string | null;
     ruleType: string;
     triggerEventType: string | null;
-    schedule: any;
-    conditions: any[];
-    actions: any[];
+    schedule: unknown;
+    conditions: unknown[];
+    actions: unknown[];
     isActive: boolean;
     priority: number;
     lastExecutedAt: string | null;
@@ -87,7 +87,7 @@ export default function AutomationRulesPage() {
         <div className="p-10">
             <div className="flex items-center justify-between mb-8 mt-20">
                 <h1 className="text-3xl text-secondary">Règles d'automatisation</h1>
-                <Link to="/admin" className="bg-dark-secondary text-white py-2 px-6 rounded-3xl border">
+                <Link to="/admin" className="btn-pill">
                     Retour à l'admin
                 </Link>
             </div>
@@ -97,14 +97,12 @@ export default function AutomationRulesPage() {
             ) : (
                 <div className="space-y-4">
                     {rules.map((rule) => (
-                        <div
-                            key={rule.id}
-                            className={`p-5 rounded-xl text-white ${rule.isActive ? "bg-grey" : "bg-gray-600"}`}>
+                        <div key={rule.id} className={`card text-white ${rule.isActive ? "bg-grey" : "bg-gray-600"}`}>
                             <div className="flex items-start justify-between mb-3">
                                 <div>
                                     <h3 className="text-xl font-bold mb-1">{rule.name}</h3>
                                     {rule.description && (
-                                        <p className="text-sm text-gray-300 mb-2">{rule.description}</p>
+                                        <p className="text-sm text-gray-100 mb-2">{rule.description}</p>
                                     )}
                                 </div>
                                 <div className="flex items-center gap-2">
@@ -114,9 +112,7 @@ export default function AutomationRulesPage() {
                                         }`}>
                                         {rule.isActive ? "Actif" : "Inactif"}
                                     </span>
-                                    <button
-                                        onClick={() => toggleRule(rule.id)}
-                                        className="bg-dark-secondary text-white py-1 px-4 rounded border text-sm">
+                                    <button onClick={() => toggleRule(rule.id)} className="btn-pill text-sm py-1 px-4">
                                         {rule.isActive ? "Désactiver" : "Activer"}
                                     </button>
                                 </div>
@@ -124,8 +120,8 @@ export default function AutomationRulesPage() {
 
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                                 <div>
-                                    <p className="text-gray-300">Type</p>
-                                    <p className="font-semibold">
+                                    <p className="text-gray-100">Type</p>
+                                    <p className="font-semibold text-white">
                                         {rule.ruleType === "EVENT_TRIGGERED"
                                             ? "Déclenché par événement"
                                             : "Basé sur le temps"}
@@ -133,18 +129,18 @@ export default function AutomationRulesPage() {
                                 </div>
                                 {rule.triggerEventType && (
                                     <div>
-                                        <p className="text-gray-300">Événement déclencheur</p>
-                                        <p className="font-semibold">{rule.triggerEventType}</p>
+                                        <p className="text-gray-100">Événement déclencheur</p>
+                                        <p className="font-semibold text-white">{rule.triggerEventType}</p>
                                     </div>
                                 )}
                                 <div>
-                                    <p className="text-gray-300">Priorité</p>
-                                    <p className="font-semibold">{rule.priority}</p>
+                                    <p className="text-gray-100">Priorité</p>
+                                    <p className="font-semibold text-white">{rule.priority}</p>
                                 </div>
                                 {rule.lastExecutedAt && (
                                     <div>
-                                        <p className="text-gray-300">Dernière exécution</p>
-                                        <p className="font-semibold">
+                                        <p className="text-gray-100">Dernière exécution</p>
+                                        <p className="font-semibold text-white">
                                             {new Date(rule.lastExecutedAt).toLocaleDateString()}
                                         </p>
                                     </div>
@@ -153,18 +149,18 @@ export default function AutomationRulesPage() {
 
                             {rule.conditions && rule.conditions.length > 0 && (
                                 <div className="mt-3">
-                                    <p className="text-sm text-gray-300 mb-1">Conditions :</p>
+                                    <p className="text-sm text-gray-100 mb-1">Conditions :</p>
                                     <div className="bg-dark-secondary p-2 rounded text-xs">
-                                        <pre>{JSON.stringify(rule.conditions, null, 2)}</pre>
+                                        <pre className="text-white">{JSON.stringify(rule.conditions, null, 2)}</pre>
                                     </div>
                                 </div>
                             )}
 
                             {rule.actions && rule.actions.length > 0 && (
                                 <div className="mt-3">
-                                    <p className="text-sm text-gray-300 mb-1">Actions :</p>
+                                    <p className="text-sm text-gray-100 mb-1">Actions :</p>
                                     <div className="bg-dark-secondary p-2 rounded text-xs">
-                                        <pre>{JSON.stringify(rule.actions, null, 2)}</pre>
+                                        <pre className="text-white">{JSON.stringify(rule.actions, null, 2)}</pre>
                                     </div>
                                 </div>
                             )}

@@ -213,10 +213,7 @@ export default function Page() {
                     )}
 
                     <div className="w-full grid justify-items-center">
-                        <Button
-                            type="submit"
-                            className="bg-dark-secondary text-white py-2 px-6 rounded-3xl w-fit border"
-                            disabled={loading}>
+                        <Button type="submit" className="btn-pill w-fit" disabled={loading}>
                             {loading ? "Envoi en cours..." : "Envoyer"}
                         </Button>
                     </div>

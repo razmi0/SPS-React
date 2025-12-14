@@ -86,101 +86,103 @@ export default function AnalyticsPage() {
         <div className="p-10">
             <div className="flex items-center justify-between mb-8 mt-20">
                 <h1 className="text-3xl text-secondary">Analytics & KPIs</h1>
-                <Link to="/admin" className="bg-dark-secondary text-white py-2 px-6 rounded-3xl border">
+                <Link to="/admin" className="btn-pill">
                     Retour à l'admin
                 </Link>
             </div>
 
             {kpis && (
-                <div className="space-y-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
                     {/* Users KPIs */}
-                    <div className="p-6 rounded-xl bg-grey text-white">
-                        <h2 className="text-2xl font-bold mb-4">Utilisateurs</h2>
-                        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                            <div>
-                                <p className="text-sm text-gray-300">Total</p>
-                                <p className="text-2xl font-bold">{kpis.users.totalUsers}</p>
+                    <div className="card-lg">
+                        <h2 className="text-xl font-bold mb-3">Utilisateurs</h2>
+                        <div className="data-grid">
+                            <div className="data-pair">
+                                <span className="data-pair-label">Total:</span>
+                                <span className="data-pair-value">{kpis.users.totalUsers}</span>
                             </div>
-                            <div>
-                                <p className="text-sm text-gray-300">Vérifiés</p>
-                                <p className="text-2xl font-bold">{kpis.users.verifiedUsers}</p>
+                            <div className="data-pair">
+                                <span className="data-pair-label">Vérifiés:</span>
+                                <span className="data-pair-value">{kpis.users.verifiedUsers}</span>
                             </div>
-                            <div>
-                                <p className="text-sm text-gray-300">Taux de vérification</p>
-                                <p className="text-2xl font-bold">{kpis.users.verificationRate}%</p>
+                            <div className="data-pair">
+                                <span className="data-pair-label">Taux de vérification:</span>
+                                <span className="data-pair-value">{kpis.users.verificationRate}%</span>
                             </div>
-                            <div>
-                                <p className="text-sm text-gray-300">Inscriptions</p>
-                                <p className="text-2xl font-bold">{kpis.users.registrations}</p>
+                            <div className="data-pair">
+                                <span className="data-pair-label">Inscriptions:</span>
+                                <span className="data-pair-value">{kpis.users.registrations}</span>
                             </div>
-                            <div>
-                                <p className="text-sm text-gray-300">Connexions</p>
-                                <p className="text-2xl font-bold">{kpis.users.logins}</p>
+                            <div className="data-pair">
+                                <span className="data-pair-label">Connexions:</span>
+                                <span className="data-pair-value">{kpis.users.logins}</span>
                             </div>
                         </div>
                     </div>
 
                     {/* Products KPIs */}
-                    <div className="p-6 rounded-xl bg-grey text-white">
+                    <div className="card-lg">
                         <h2 className="text-2xl font-bold mb-4">Produits</h2>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            <div>
-                                <p className="text-sm text-gray-300">Total</p>
-                                <p className="text-2xl font-bold">{kpis.products.totalProducts}</p>
+                        <div className="data-grid">
+                            <div className="data-pair">
+                                <span className="data-pair-label">Total:</span>
+                                <span className="data-pair-value">{kpis.products.totalProducts}</span>
                             </div>
-                            <div>
-                                <p className="text-sm text-gray-300">Créés</p>
-                                <p className="text-2xl font-bold">{kpis.products.productsCreated}</p>
+                            <div className="data-pair">
+                                <span className="data-pair-label">Créés:</span>
+                                <span className="data-pair-value">{kpis.products.productsCreated}</span>
                             </div>
-                            <div>
-                                <p className="text-sm text-gray-300">Vues</p>
-                                <p className="text-2xl font-bold">{kpis.products.productsViewed}</p>
+                            <div className="data-pair">
+                                <span className="data-pair-label">Vues:</span>
+                                <span className="data-pair-value">{kpis.products.productsViewed}</span>
                             </div>
-                            <div>
-                                <p className="text-sm text-gray-300">Prix moyen</p>
-                                <p className="text-2xl font-bold">{kpis.products.averagePrice} CHF</p>
+                            <div className="data-pair">
+                                <span className="data-pair-label">Prix moyen:</span>
+                                <span className="data-pair-value">{kpis.products.averagePrice} CHF</span>
                             </div>
                         </div>
                     </div>
 
                     {/* Articles KPIs */}
-                    <div className="p-6 rounded-xl bg-grey text-white">
+                    <div className="card-lg">
                         <h2 className="text-2xl font-bold mb-4">Articles</h2>
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                            <div>
-                                <p className="text-sm text-gray-300">Total</p>
-                                <p className="text-2xl font-bold">{kpis.articles.totalArticles}</p>
+                        <div className="data-grid">
+                            <div className="data-pair">
+                                <span className="data-pair-label">Total:</span>
+                                <span className="data-pair-value">{kpis.articles.totalArticles}</span>
                             </div>
-                            <div>
-                                <p className="text-sm text-gray-300">Créés</p>
-                                <p className="text-2xl font-bold">{kpis.articles.articlesCreated}</p>
+                            <div className="data-pair">
+                                <span className="data-pair-label">Créés:</span>
+                                <span className="data-pair-value">{kpis.articles.articlesCreated}</span>
                             </div>
-                            <div>
-                                <p className="text-sm text-gray-300">Vues</p>
-                                <p className="text-2xl font-bold">{kpis.articles.articlesViewed}</p>
+                            <div className="data-pair">
+                                <span className="data-pair-label">Vues:</span>
+                                <span className="data-pair-value">{kpis.articles.articlesViewed}</span>
                             </div>
                         </div>
                     </div>
 
                     {/* Contacts KPIs */}
-                    <div className="p-6 rounded-xl bg-grey text-white">
+                    <div className="card-lg">
                         <h2 className="text-2xl font-bold mb-4">Contacts</h2>
-                        <div className="grid grid-cols-2 md:grid-cols-2 gap-4 mb-4">
-                            <div>
-                                <p className="text-sm text-gray-300">Total</p>
-                                <p className="text-2xl font-bold">{kpis.contacts.totalContacts}</p>
+                        <div className="data-grid mb-4">
+                            <div className="data-pair">
+                                <span className="data-pair-label">Total:</span>
+                                <span className="data-pair-value">{kpis.contacts.totalContacts}</span>
                             </div>
-                            <div>
-                                <p className="text-sm text-gray-300">Soumis</p>
-                                <p className="text-2xl font-bold">{kpis.contacts.contactsSubmitted}</p>
+                            <div className="data-pair">
+                                <span className="data-pair-label">Soumis:</span>
+                                <span className="data-pair-value">{kpis.contacts.contactsSubmitted}</span>
                             </div>
                         </div>
                         {Object.keys(kpis.contacts.byType).length > 0 && (
                             <div>
-                                <p className="text-sm text-gray-300 mb-2">Par type :</p>
+                                <p className="text-xs text-gray-200 mb-2">Par type :</p>
                                 <div className="flex flex-wrap gap-2">
                                     {Object.entries(kpis.contacts.byType).map(([type, count]) => (
-                                        <span key={type} className="bg-dark-secondary px-3 py-1 rounded">
+                                        <span
+                                            key={type}
+                                            className="bg-dark-secondary px-3 py-1 rounded text-xs text-white">
                                             {type}: {count}
                                         </span>
                                     ))}
@@ -190,24 +192,24 @@ export default function AnalyticsPage() {
                     </div>
 
                     {/* Newsletter KPIs */}
-                    <div className="p-6 rounded-xl bg-grey text-white">
+                    <div className="card-lg">
                         <h2 className="text-2xl font-bold mb-4">Newsletter</h2>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            <div>
-                                <p className="text-sm text-gray-300">Abonnés</p>
-                                <p className="text-2xl font-bold">{kpis.newsletter.subscribedUsers}</p>
+                        <div className="data-grid">
+                            <div className="data-pair">
+                                <span className="data-pair-label">Abonnés:</span>
+                                <span className="data-pair-value">{kpis.newsletter.subscribedUsers}</span>
                             </div>
-                            <div>
-                                <p className="text-sm text-gray-300">Abonnements</p>
-                                <p className="text-2xl font-bold">{kpis.newsletter.subscriptions}</p>
+                            <div className="data-pair">
+                                <span className="data-pair-label">Abonnements:</span>
+                                <span className="data-pair-value">{kpis.newsletter.subscriptions}</span>
                             </div>
-                            <div>
-                                <p className="text-sm text-gray-300">Désabonnements</p>
-                                <p className="text-2xl font-bold">{kpis.newsletter.unsubscriptions}</p>
+                            <div className="data-pair">
+                                <span className="data-pair-label">Désabonnements:</span>
+                                <span className="data-pair-value">{kpis.newsletter.unsubscriptions}</span>
                             </div>
-                            <div>
-                                <p className="text-sm text-gray-300">Taux de croissance</p>
-                                <p className="text-2xl font-bold">{kpis.newsletter.growthRate}%</p>
+                            <div className="data-pair">
+                                <span className="data-pair-label">Taux de croissance:</span>
+                                <span className="data-pair-value">{kpis.newsletter.growthRate}%</span>
                             </div>
                         </div>
                     </div>

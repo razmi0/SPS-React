@@ -26,8 +26,10 @@ export default function Layout({ links }: { links: NavLink[] }) {
         <>
             <AuthProvider>
                 <Header links={links} />
-                <main className="relative w-screen flex flex-col min-h-screen overflow-x-hidden grow bg-dark-primary space-y-10">
-                    <Outlet />
+                <main className="relative w-screen flex flex-col min-h-screen overflow-x-hidden grow space-y-10 elegant-bg">
+                    <div className="relative z-10">
+                        <Outlet />
+                    </div>
                 </main>
                 <Footer />
             </AuthProvider>

@@ -149,46 +149,67 @@ export default function AdminPage() {
         return isNaN(date.getTime()) ? "Non renseigné" : date.toLocaleDateString();
     };
 
+    const Spinner = () => (
+        <svg
+            className="animate-spin h-5 w-5 text-white"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+            <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+    );
+
+    const LoadingButton = ({
+        isLoading,
+        onClick,
+        children,
+    }: {
+        isLoading: boolean;
+        onClick: () => void;
+        children: string;
+    }) => (
+        <button onClick={onClick} disabled={isLoading} className="btn-pill relative">
+            <span className={isLoading ? "invisible" : ""}>{children}</span>
+            {isLoading && (
+                <span className="absolute inset-0 flex items-center justify-center">
+                    <Spinner />
+                </span>
+            )}
+        </button>
+    );
+
     return (
         <div className="p-10">
             <h1 className="text-3xl text-secondary mb-8 mt-20">Administration</h1>
 
             {/* NAVIGATION VERS ANALYTICS ET AUTOMATION RULES */}
             <div className="flex gap-6 mb-10 flex-wrap">
-                <a href="/analytics" className="bg-secondary text-white py-2 px-6 rounded-3xl border">
+                <a href="/analytics" className="btn-pill-secondary">
                     Analytics & KPIs
                 </a>
-                <a href="/automation-rules" className="bg-secondary text-white py-2 px-6 rounded-3xl border">
+                <a href="/automation-rules" className="btn-pill-secondary">
                     Règles d'automatisation
                 </a>
             </div>
 
             {/* BOUTONS */}
             <div className="flex gap-6 mb-10 flex-wrap">
-                <button
-                    onClick={fetchUsers}
-                    disabled={loading.users}
-                    className="bg-dark-secondary text-white py-2 px-6 rounded-3xl border disabled:opacity-50 disabled:cursor-not-allowed">
-                    {loading.users ? "Chargement..." : "Voir les utilisateurs"}
-                </button>
-                <button
-                    onClick={fetchContacts}
-                    disabled={loading.contacts}
-                    className="bg-dark-secondary text-white py-2 px-6 rounded-3xl border disabled:opacity-50 disabled:cursor-not-allowed">
-                    {loading.contacts ? "Chargement..." : "Voir les contacts"}
-                </button>
-                <button
-                    onClick={fetchProducts}
-                    disabled={loading.products}
-                    className="bg-dark-secondary text-white py-2 px-6 rounded-3xl border disabled:opacity-50 disabled:cursor-not-allowed">
-                    {loading.products ? "Chargement..." : "Voir les produits"}
-                </button>
-                <button
-                    onClick={fetchArticles}
-                    disabled={loading.articles}
-                    className="bg-dark-secondary text-white py-2 px-6 rounded-3xl border disabled:opacity-50 disabled:cursor-not-allowed">
-                    {loading.articles ? "Chargement..." : "Voir les articles"}
-                </button>
+                <LoadingButton isLoading={loading.users} onClick={fetchUsers}>
+                    Voir les utilisateurs
+                </LoadingButton>
+                <LoadingButton isLoading={loading.contacts} onClick={fetchContacts}>
+                    Voir les contacts
+                </LoadingButton>
+                <LoadingButton isLoading={loading.products} onClick={fetchProducts}>
+                    Voir les produits
+                </LoadingButton>
+                <LoadingButton isLoading={loading.articles} onClick={fetchArticles}>
+                    Voir les articles
+                </LoadingButton>
             </div>
 
             {/* MESSAGE D'ERREUR */}
@@ -284,29 +305,27 @@ export default function AdminPage() {
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {contacts.map((contact) => (
-                                <div
-                                    key={contact.id}
-                                    className="p-4 rounded-lg bg-grey text-white border border-gray-600 hover:bg-grey/80 transition">
+                                <div key={contact.id} className="card-sm hover:bg-grey/80">
                                     <div className="mb-3 pb-3 border-b border-gray-600">
                                         <p className="font-semibold text-lg">
                                             {contact.user?.lastName} {contact.user?.firstName}
                                         </p>
-                                        <p className="text-sm text-gray-300">{contact.user?.email}</p>
+                                        <p className="text-sm text-gray-100">{contact.user?.email}</p>
                                         {contact.user?.company && (
-                                            <p className="text-sm text-gray-400">{contact.user.company}</p>
+                                            <p className="text-sm text-gray-200">{contact.user.company}</p>
                                         )}
                                     </div>
                                     <div className="mb-2">
-                                        <span className="text-xs text-gray-400 uppercase">Type :</span>
+                                        <span className="text-xs text-gray-200 uppercase">Type :</span>
                                         <span className="ml-2 bg-dark-secondary px-2 py-1 rounded text-xs">
                                             {contact.contactType || "Non renseigné"}
                                         </span>
                                     </div>
                                     <div className="mb-3">
-                                        <p className="text-xs text-gray-400 uppercase mb-1">Message :</p>
-                                        <p className="text-sm line-clamp-3">{contact.message}</p>
+                                        <p className="text-xs text-gray-200 uppercase mb-1">Message :</p>
+                                        <p className="text-sm text-white line-clamp-3">{contact.message}</p>
                                     </div>
-                                    <p className="text-xs text-gray-400">{formatDate(contact.createdAt)}</p>
+                                    <p className="text-xs text-gray-200">{formatDate(contact.createdAt)}</p>
                                 </div>
                             ))}
                         </div>
@@ -323,9 +342,7 @@ export default function AdminPage() {
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {products.map((product) => (
-                                <div
-                                    key={product.id}
-                                    className="p-4 rounded-lg bg-grey text-white border border-gray-600 hover:bg-grey/80 transition">
+                                <div key={product.id} className="card-sm hover:bg-grey/80">
                                     <div className="mb-3 pb-3 border-b border-gray-600">
                                         <h3 className="font-semibold text-lg mb-1">{product.name}</h3>
                                         <p className="text-xl font-bold text-secondary">
@@ -333,9 +350,9 @@ export default function AdminPage() {
                                         </p>
                                     </div>
                                     <div className="mb-3">
-                                        <p className="text-sm text-gray-300 line-clamp-3 mb-2">{product.description}</p>
+                                        <p className="text-sm text-gray-100 line-clamp-3 mb-2">{product.description}</p>
                                     </div>
-                                    <div className="flex items-center justify-between text-xs text-gray-400">
+                                    <div className="flex items-center justify-between text-xs text-gray-200">
                                         <span>{product.images.length} image(s)</span>
                                         <span>{formatDate(product.createdAt)}</span>
                                     </div>
@@ -355,16 +372,14 @@ export default function AdminPage() {
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {articles.map((article) => (
-                                <div
-                                    key={article.id}
-                                    className="p-4 rounded-lg bg-grey text-white border border-gray-600 hover:bg-grey/80 transition">
+                                <div key={article.id} className="card-sm hover:bg-grey/80">
                                     <div className="mb-3 pb-3 border-b border-gray-600">
                                         <h3 className="font-semibold text-lg">{article.title}</h3>
                                     </div>
                                     <div className="mb-3">
-                                        <p className="text-sm text-gray-300 line-clamp-3">{article.description}</p>
+                                        <p className="text-sm text-gray-100 line-clamp-3">{article.description}</p>
                                     </div>
-                                    <div className="flex items-center justify-between text-xs text-gray-400">
+                                    <div className="flex items-center justify-between text-xs text-gray-200">
                                         <span>{article.images.length} image(s)</span>
                                         <span>{formatDate(article.createdAt)}</span>
                                     </div>
