@@ -1,5 +1,9 @@
 # Changelog
 
+## sps-front-1.1.2
+
+- **refactor**: Improve admin page button loading states
+
 ## sps-front-1.1.1
 
 - **feat**: Add throttle/debounce utilities, integrate throttling in client-fetch (1s per endpoint)
